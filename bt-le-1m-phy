@@ -1,0 +1,27 @@
+#!/bin/sh
+# Keep the Bluetooth adapter on the LE 1M PHY only.
+# The Corsair Dark Core RGB Pro advertises 2M PHY support but its link stalls
+# when the adapter negotiates it, so pairing/encryption never completes.
+# The kernel re-enables 2M every time the adapter is powered on, so re-apply.
+PHYS="BR1M1SLOT BR1M3SLOT BR1M5SLOT EDR2M1SLOT EDR2M3SLOT EDR2M5SLOT EDR3M1SLOT EDR3M3SLOT EDR3M5SLOT LE1MTX LE1MRX"
+
+apply() {
+    for _ in 1 2 3 4 5 6 7 8 9 10; do
+        sel=$(btmgmt phy 2>/dev/null | grep "^Selected")
+        case "$sel" in
+            *LE2M*|*LECODED*) btmgmt phy $PHYS >/dev/null 2>&1 && echo "LE PHY limited to 1M" ;;
+            *LE1MTX*) return 0 ;;
+        esac
+        sleep 1
+    done
+}
+
+apply
+dbus-monitor --system \
+    "type='signal',sender='org.bluez',interface='org.freedesktop.DBus.Properties',member='PropertiesChanged',arg0='org.bluez.Adapter1'" \
+    "type='signal',sender='org.bluez',interface='org.freedesktop.DBus.ObjectManager',member='InterfacesAdded'" |
+while read -r line; do
+    case "$line" in
+        *'string "Powered"'*|*InterfacesAdded*) apply ;;
+    esac
+done

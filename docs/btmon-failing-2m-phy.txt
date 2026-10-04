@@ -1,0 +1,141 @@
+# btmon excerpt: FAILING pairing (adapter default PHYs: 1M + 2M + Coded)
+# Addresses and key material redacted. Mouse = AA:BB:CC:DD:EE:FF
+# Note what is missing after 'LE Start Encryption': no 'Encryption Change' event,
+# and no 'LE Connection Update Complete'. 30 s later the host gives up.
+
+< HCI Command: LE Extended.. (0x08|0x0043) plen 26  #625 [hci0] 17:56:51.932136
+        Filter policy: Accept list is not used (0x00)
+        Own address type: Public (0x00)
+        Peer address type: Random (0x01)
+        Peer address: AA:BB:CC:DD:EE:FF (Static)
+        Initiating PHYs: 0x01
+        Entry 0: LE 1M
+          Scan interval: 60.000 msec (0x0060)
+          Scan window: 60.000 msec (0x0060)
+          Min connection interval: 30.00 msec (0x0018)
+          Max connection interval: 50.00 msec (0x0028)
+          Connection latency: 0 (0x0000)
+          Supervision timeout: 6000 msec (0x0258)
+          Min connection length: 0.000 msec (0x0000)
+          Max connection length: 0.000 msec (0x0000)
+> HCI Event: Command Status (0x0f) plen 4           #626 [hci0] 17:56:51.932771
+      LE Extended Create Connection (0x08|0x0043) ncmd 2
+        Status: Success (0x00)
+> HCI Event: LE Meta Event (0x3e) plen 31           #627 [hci0] 17:56:52.017003
+      LE Enhanced Connection Complete (0x0a)
+        Status: Success (0x00)
+        Handle: 2048
+        Role: Central (0x00)
+        Peer address type: Random (0x01)
+        Peer address: AA:BB:CC:DD:EE:FF (Static)
+        Local resolvable private address: 00:00:00:00:00:00 (Non-Resolvable)
+        Peer resolvable private address: 00:00:00:00:00:00 (Non-Resolvable)
+        Connection interval: 45.00 msec (0x0024)
+        Connection latency: 0 (0x0000)
+        Supervision timeout: 6000 msec (0x0258)
+        Central clock accuracy: 0x00
+@ MGMT Event: Device Connec.. (0x000b) plen 24  {0x0001} [hci0] 17:56:52.017154
+> HCI Event: LE Meta Event (0x3e) plen 12           #631 [hci0] 17:56:52.070874
+      LE Read Remote Used Features (0x04)
+        Status: Success (0x00)
+        Handle: 2048 (LE-ACL) Address: AA:BB:CC:DD:EE:FF (Static)
+        Features[0/0][8]:
+        <bytes redacted>
+          LE Encryption
+          Extended Reject Indication
+          LE Data Packet Length Extension
+          LE 2M PHY
+          Channel Selection Algorithm #2
+< LE-ACL: Handle 2048 [AA:BB:.. flags 0x00 dlen 11  #632 [hci0] 17:56:52.071027
+      SMP: Pairing Request (0x01) len 6
+        IO capability: KeyboardDisplay (0x04)
+        OOB data: Authentication data not present (0x00)
+        Authentication requirement: Bonding, MITM, SC, No Keypresses, CT2 (0x2d)
+        Max encryption key size: 16
+        Initiator key distribution: EncKey Sign LinkKey (0x0d)
+        Responder key distribution: EncKey IdKey Sign LinkKey (0x0f)
+= bluetoothd: src/service.c:service_accept() input-hog prof..   17:56:52.071287
+> HCI Event: LE Meta Event (0x3e) plen 11           #642 [hci0] 17:56:52.205894
+      LE Data Length Change (0x07)
+        Handle: 2048 (LE-ACL) Address: AA:BB:CC:DD:EE:FF (Static)
+        Max TX octets: 27
+        Max TX time: 1314
+        Max RX octets: 27
+        Max RX time: 1314
+> LE-ACL: Handle 2048 [AA:BB:.. flags 0x02 dlen 11  #643 [hci0] 17:56:52.252779
+      SMP: Pairing Response (0x02) len 6
+        IO capability: NoInputNoOutput (0x03)
+        OOB data: Authentication data not present (0x00)
+        Authentication requirement: Bonding, No MITM, Legacy, No Keypresses (0x01)
+        Max encryption key size: 16
+        Initiator key distribution: EncKey (0x01)
+        Responder key distribution: EncKey IdKey (0x03)
+@ MGMT Event: User Confirma.. (0x000f) plen 12  {0x0001} [hci0] 17:56:52.252868
+        LE Address: AA:BB:CC:DD:EE:FF (Static)
+        Confirm hint: 0x01
+        Value: 0x00000000
+@ MGMT Command: User Confirm.. (0x001c) plen 7  {0x0001} [hci0] 17:56:52.252999
+        LE Address: AA:BB:CC:DD:EE:FF (Static)
+@ MGMT Event: Command Compl.. (0x0001) plen 10  {0x0001} [hci0] 17:56:52.253008
+      User Confirmation Reply (0x001c) plen 7
+        Status: Success (0x00)
+        LE Address: AA:BB:CC:DD:EE:FF (Static)
+< LE-ACL: Handle 2048 [AA:BB:.. flags 0x00 dlen 21  #644 [hci0] 17:56:52.253064
+      SMP: Pairing Confirm (0x03) len 16
+        Confirm value[16]:
+        <bytes redacted>
+> LE-ACL: Handle 2048 [AA:BB:.. flags 0x02 dlen 21  #646 [hci0] 17:56:52.387807
+      SMP: Pairing Confirm (0x03) len 16
+        Confirm value[16]:
+        <bytes redacted>
+< LE-ACL: Handle 2048 [AA:BB:.. flags 0x00 dlen 21  #647 [hci0] 17:56:52.387872
+      SMP: Pairing Random (0x04) len 16
+        Random value[16]:
+        <bytes redacted>
+> LE-ACL: Handle 2048 [AA:BB:.. flags 0x02 dlen 21  #649 [hci0] 17:56:52.477792
+      SMP: Pairing Random (0x04) len 16
+        Random value[16]:
+        <bytes redacted>
+< HCI Command: LE Start En.. (0x08|0x0019) plen 28  #650 [hci0] 17:56:52.477916
+        Handle: 2048 (LE-ACL) Address: AA:BB:CC:DD:EE:FF (Static)
+        Random number: 0x0000000000000000
+        Encrypted diversifier: 0x0000
+        Long term key[16]:
+        <bytes redacted>
+> HCI Event: Command Status (0x0f) plen 4           #651 [hci0] 17:56:52.478991
+      LE Start Encryption (0x08|0x0019) ncmd 1
+        Status: Success (0x00)
+> LE-ACL: Handle 2048 [AA:BB:.. flags 0x02 dlen 16  #652 [hci0] 17:56:57.067702
+      LE L2CAP: Connection Parameter Update Request (0x12) ident 3 len 8
+        Min interval: 6
+        Max interval: 6
+        Peripheral latency: 20
+        Timeout multiplier: 300
+< LE-ACL: Handle 2048 [AA:BB:.. flags 0x00 dlen 10  #653 [hci0] 17:56:57.068014
+      LE L2CAP: Connection Parameter Update Response (0x13) ident 3 len 2
+        Result: Connection Parameters accepted (0x0000)
+< HCI Command: LE Connecti.. (0x08|0x0013) plen 14  #654 [hci0] 17:56:57.068047
+        Handle: 2048 (LE-ACL) Address: AA:BB:CC:DD:EE:FF (Static)
+        Min connection interval: 7.50 msec (0x0006)
+        Max connection interval: 7.50 msec (0x0006)
+        Connection latency: 20 (0x0014)
+        Supervision timeout: 3000 msec (0x012c)
+        Min connection length: 0.000 msec (0x0000)
+        Max connection length: 0.000 msec (0x0000)
+> HCI Event: Command Status (0x0f) plen 4           #655 [hci0] 17:56:57.069225
+      LE Connection Update (0x08|0x0013) ncmd 1
+        Status: Success (0x00)
+< HCI Command: Disconnect (0x01|0x0006) plen 3      #741 [hci0] 17:57:22.893986
+        Handle: 2048 (LE-ACL) Address: AA:BB:CC:DD:EE:FF (Static)
+        Reason: Authentication Failure (0x05)
+> HCI Event: Command Status (0x0f) plen 4           #742 [hci0] 17:57:22.894767
+      Disconnect (0x01|0x0006) ncmd 1
+        Status: Success (0x00)
+> HCI Event: Disconnect Complete (0x05) plen 4      #743 [hci0] 17:57:22.898757
+        Status: Success (0x00)
+        Handle: 2048 (LE-ACL) Address: AA:BB:CC:DD:EE:FF (Static)
+        Reason: Connection Terminated By Local Host (0x16)
+@ MGMT Event: Device Disconn.. (0x000c) plen 8  {0x0001} [hci0] 17:57:22.898811
+        LE Address: AA:BB:CC:DD:EE:FF (Static)
+        Reason: Connection terminated by local host (0x02)
+@ MGMT Event: Command Compl.. (0x0001) plen 10  {0x0001} [hci0] 17:57:22.898820
