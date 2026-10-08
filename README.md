@@ -9,14 +9,16 @@ link stalls when the adapter has 2M enabled. Limiting the adapter to the **1M PH
 makes pairing finish in about one second, and the mouse reconnects on its own
 afterwards.
 
-Leer en español: [README.es.md](README.es.md) · For AI agents: [AGENTS.md](AGENTS.md)
+For AI agents: [AGENTS.md](AGENTS.md)
 
 ## Symptoms
 
 - The mouse appears in a Bluetooth scan as `DARK CORE RGB PRO`.
-- `bluetoothctl pair` fails with `org.bluez.Error.AuthenticationCanceled` after about 30 seconds.
+- `bluetoothctl pair` fails with `org.bluez.Error.AuthenticationCanceled` after
+  about 30 seconds.
 - `bluetoothctl connect` (without pairing) connects and drops a few seconds later.
-- Desktop Bluetooth menus (KDE, GNOME) show "pairing failed" or connect/disconnect loops.
+- Desktop Bluetooth menus (KDE, GNOME) show "pairing failed" or
+  connect/disconnect loops.
 - The 2.4 GHz Slipstream dongle and the USB cable work fine.
 
 ## Quick fix
@@ -65,7 +67,7 @@ so the setting survives.
 ## What the installer does
 
 | File | Installed to | Purpose |
-|---|---|---|
+| --- | --- | --- |
 | `bt-le-1m-phy` | `/usr/local/bin/` | Applies the `btmgmt phy` command above, then watches BlueZ on D-Bus and re-applies it whenever the adapter is powered on |
 | `bt-le-1m-phy.service` | `/etc/systemd/system/` | Runs the script with `bluetooth.target` |
 
@@ -109,12 +111,13 @@ Data Packet Length Extension, **LE 2M PHY**, Channel Selection Algorithm #2.
   packets, so the capture cannot say whether the mouse or the adapter is the side
   that stalls. An over-the-air sniffer would be needed to settle that.
 - **Ruled out:** connection interval (7.5 ms and 30–50 ms both failed with 2M) and
-  the order of operations (connect-then-pair and pair-directly both failed with 2M).
+  the order of operations (connect-then-pair and pair-directly both failed with
+  2M).
 
 ## Tested setup
 
 | | |
-|---|---|
+| --- | --- |
 | Mouse | Corsair Dark Core RGB Pro, Bluetooth HID version 5.00 |
 | Laptop | ASUS TUF Dash F15 FX517ZC |
 | Bluetooth adapter | Intel AX201 (USB `8087:0026`), firmware `ibt-0040-4150` |
@@ -124,7 +127,8 @@ Data Packet Length Extension, **LE 2M PHY**, Channel Selection Algorithm #2.
 
 Things to know about this test:
 
-- One mouse and one adapter. Other adapters may not need the fix, or may need it too.
+- One mouse and one adapter. Other adapters may not need the fix, or may need it
+  too.
 - `ConnectionSupervisionTimeout=600` was already set under `[LE]` in
   `/etc/bluetooth/main.conf` from an earlier attempt. The fix was not re-tested
   without it.

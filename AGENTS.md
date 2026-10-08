@@ -1,7 +1,7 @@
 # Notes for AI agents
 
-This file records how the problem was diagnosed, so an agent facing the same or a
-similar Bluetooth LE pairing failure can repeat the process instead of guessing.
+This file records how the problem was diagnosed, so an agent facing the same or
+a similar Bluetooth LE pairing failure can repeat the process instead of guessing.
 
 ## The finding in one paragraph
 
@@ -61,7 +61,7 @@ The order matters; the early steps are cheap and rule out most of the search spa
 ## Reading a capture: failing vs working
 
 | Step | Failing (2M selected) | Working (1M only) |
-|---|---|---|
+| --- | --- | --- |
 | LE connection | Success | Success |
 | SMP request/response/confirm/random | Complete | Complete |
 | `LE Start Encryption` command status | Success | Success |
